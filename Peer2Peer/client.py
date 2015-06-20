@@ -15,3 +15,10 @@ message = ""
 for i in xrange(1,1024):
     message += `i` + ": hello\n"
 client.send(message)
+client.send("END")
+
+while(1):
+    response = client.recv(4096).decode()
+    if(response):
+        print response
+        break
