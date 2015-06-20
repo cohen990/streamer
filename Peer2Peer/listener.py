@@ -10,6 +10,25 @@ def get_ip_address(ifname):
         struct.pack('256s', ifname[:15])
     )[20:24])
 
+def recv_end(sender):
+    total_data=[]
+    data=''
+    End = "END"
+    while True:
+            data=sender.recv(8192)
+            if End in data:
+                total_data.append(data[:data.find(End)])
+                break
+            total_data.append(data)
+            if len(total_data)>1:
+                #check if end_of_data was split
+                last_pair=total_data[-2]+total_data[-1]
+                if End in last_pair:
+                    total_data[-2]=last_pair[:last_pair.find(End)]
+                    total_data.pop()
+                    break
+    return ''.join(total_data)
+
 ipAddress = get_ip_address('wlan0')
 port = 6699
 socketLocation = (ipAddress, port)
@@ -24,8 +43,9 @@ while(1):
     if(clientsocket):
         print ("connection found!")
         data = clientsocket.recv(1024).decode()
-        while(data):
-            print (data)
-            data = clientsocket.recv(1024).decode()
-        r='REceieve'
+        olddata = ""
+        data = recv_end(clientsocket).decode()
+        print "All data received!"
+        r='Receieved!'
         clientsocket.send(r.encode())
+        print "responded with ", r.encode().decode()
