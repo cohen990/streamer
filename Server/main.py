@@ -8,7 +8,7 @@ def run(server_class=HTTPServer,
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
-        with open("song.mp3", "rb") as songFile:
+        with open("../song.mp3", "rb") as songFile:
             songStream = songFile.read()
             # while byte != "":
             #     songStream.append(byte)
