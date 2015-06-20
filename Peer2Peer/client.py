@@ -1,4 +1,5 @@
 import socket
+import pyglet
 
 def recv_end(sender):
     total_data=[]
@@ -19,7 +20,13 @@ def recv_end(sender):
                     break
     return ''.join(total_data)
 
-ipAddress = "192.168.1.205"
+def play_song(song):
+    player = pyglet.media.Player()
+    player.queue(song)
+    player.play()
+
+# ipAddress = "192.168.1.205"
+ipAddress = "192.168.1.245"
 port = 6699
 socketLocation = (ipAddress, port)
 
@@ -35,5 +42,5 @@ client.send("END")
 while(1):
     response = recv_end(client)
     if(response):
-        print response
+        play_song(response)
         break
