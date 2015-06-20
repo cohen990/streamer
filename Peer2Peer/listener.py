@@ -46,6 +46,8 @@ while(1):
         olddata = ""
         data = recv_end(clientsocket).decode()
         print "All data received!"
-        r='Receieved!'
-        clientsocket.send(r.encode())
-        print "responded with ", r.encode().decode()
+        with open("song.mp3", "rb") as songFile:
+            songStream = songFile.read()
+            clientsocket.send(songStream)
+        clientsocket.send("END")
+        print "responded with song.mp3"
