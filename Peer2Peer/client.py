@@ -1,7 +1,7 @@
 import socket
 
-
-ipAddress = socket.gethostbyname(socket.gethostname())
+# ipAddress = socket.gethostbyname(socket.gethostname())
+ipAddress = "192.168.1.205"
 port = 6699
 socketLocation = (ipAddress, port)
 
